@@ -13,8 +13,8 @@
 3. Push backup files to S3
 
 ### SNAPSHOT FOLDERS
-source folder: /var/lib/cassandra/data/$KESPACE/$TABLE*/snapshot/$TIMESTAMP
-backup folder: /var/lib/cassandra/custom_backups/$KESPACE/$TABLE*/backups
+- SOURCE FOLDER: /var/lib/cassandra/data/$KESPACE/$TABLE*/snapshot/$TIMESTAMP
+- BACKUP FOLDER: /var/lib/cassandra/custom_backups/$KESPACE/$TABLE*/backups
 
 ### RELATED COMMANDS
 #### CREATING A SNAPSHOT
