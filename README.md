@@ -22,9 +22,9 @@
 ### LOG FILES
 Logs are appended to `log_snapshots.txt` and `log_incremental_backups.txt` in the same folder where the script is.
 
-### SNAPSHOT FOLDERS
-- SOURCE FOLDER: /var/lib/cassandra/data/$KESPACE/$TABLE*/snapshot/$TIMESTAMP
-- BACKUP FOLDER: /var/lib/cassandra/custom_backups/$KESPACE/$TABLE*/backups
+### SOURCE FOLDERS
+- SNAPSHOT: /var/lib/cassandra/data/$KESPACE/$TABLE*/snapshot/$TIMESTAMP
+- INCREMENTAL BACKUP: /var/lib/cassandra/custom_backups/$KESPACE/$TABLE*/backups
 
 ### RELATED COMMANDS
 #### Capture a snapshot
