@@ -9,10 +9,12 @@
 
 ## HOW TO USE IT
 ### snapshot
+- Copy snapshotter.sh to one cassandra node (to the mounted folder if cassandra is runing inside a docker container)
 - Update S3 path in snapshotter.sh
 - Run snapshotter.sh
 
 ### incremental backup
+- Copy snapshotter.sh to one cassandra node (to the mounted folder if cassandra is runing inside a docker container)
 - Enable incremental backup in yaml file
 - Update S3 path in backuper.sh
 - Run backuper.sh
