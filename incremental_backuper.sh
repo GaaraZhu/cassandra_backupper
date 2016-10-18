@@ -11,11 +11,11 @@ main () {
   KEYSPACES=$(ls $BACKUP_SOURCE_FOLDER | grep -v "system")
   for keyspace in $KEYSPACES
   do
-    # flush all data in memtable to sstable
+    # Flush all data in memtable to sstable
     echo "$(date '+%d/%m/%Y %H:%M:%S') Start flushing incremental changes from memtable to sstable for keysapce: $keyspace" >> log_incremental_backups.txt
     nodetool -h localhost -p 7199 flush $keyspace
 
-    #copy the incremental backup keyspace by keyspace
+    # Copy the incremental backup keyspace by keyspace
     for dir in $BACKUP_SOURCE_FOLDER/$keyspace/*
     do
       TARGET_FOLDER=$BACKUP_FOLDER/$keyspace/${dir##*/}/
@@ -36,9 +36,8 @@ main () {
   /usr/local/bin/aws s3 cp $BACKUP_FOLDER.tgz s3://xxx/incremental_backups/
   echo `date` -- "Finish uploading" >> log_incremental_backups.txt
 
-  #rm -r $BACKUP_ROOT_FOLER
   echo "$(date '+%d/%m/%Y %H:%M:%S') Finish backuping incremental changes" >> log_incremental_backups.txt
 }
 
-# run main after all functions are defined
+# Run main after all functions are defined
 main "$@"

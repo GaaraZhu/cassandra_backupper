@@ -12,11 +12,11 @@ main () {
   KEYSPACES=$(ls $SNAPSHOT_SOURCE_FOLDER | grep -v "system")
   for KEYSPACE in $KEYSPACES
   do
-    # capture snapshot of current KEYSPACE
+    # Capture snapshot of current KEYSPACE
     echo "$(date '+%d/%m/%Y %H:%M:%S') Start capturing snapshots for KEYSPACE: $KEYSPACE" >> log_snapshots.txt
     nodetool -h localhost -p 7199 snapshot $KEYSPACE
 
-    # copy and removing snapshots KEYSPACE by KEYSPACE
+    # Copying and removing snapshots KEYSPACE by KEYSPACE
     for dir in $SNAPSHOT_SOURCE_FOLDER/$KEYSPACE/*
     do
       TARGET_FOLDER=$SNAPSHOT_FOLDER/$KEYSPACE/${dir##*/}/
@@ -44,5 +44,5 @@ main () {
   echo "$(date '+%d/%m/%Y %H:%M:%S') Finish backuping snapshots" >> log_snapshots.txt
 }
 
-# run main after all functions are defined
+# Run main after all functions are defined
 main "$@"
