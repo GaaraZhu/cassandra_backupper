@@ -17,24 +17,27 @@
 - Script(s)(snapshotter.sh/backupper.sh) must be in one cassandra node (to the mounted folder if cassandra is runing inside a docker container)
 - S3 path must exist and must be updated in script file(s)
 
+## MISCELLANEOUS
 
-## SNAPSHOT FOLDERS
+### LOG FILES
+Logs are appended to `log_snapshots.txt` and `log_incremental_backups.txt` in the same folder where the script is.
+
+### SNAPSHOT FOLDERS
 - SOURCE FOLDER: /var/lib/cassandra/data/$KESPACE/$TABLE*/snapshot/$TIMESTAMP
 - BACKUP FOLDER: /var/lib/cassandra/custom_backups/$KESPACE/$TABLE*/backups
 
-
-## RELATED COMMANDS
-### Capture a snapshot
+### RELATED COMMANDS
+#### Capture a snapshot
 ```
 ./nodetool -h $HOST -p 7199 snapshot $KEYSPACE
 ```
 
-### Restore a table
+#### Restore a table
 ```
 ./nodetool -h $HOST -p 7199 refresh $KEYSPACE $TABLE
 ```
 
-### Flush changes to SSTable
+#### Flush changes to SSTable
 ```
 ./nodetool -h $HOST -p 7199 flush $KEYSPACE $TABLE
 ```
