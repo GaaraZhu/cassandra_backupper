@@ -1,33 +1,37 @@
 # CASSANDRA_BACKUPER
 
 ## BACKUP STRAGETY
-- All keyspaces except system ones will be backuped
-- Both snapshot and incremental backup will be used here to achieve a fine-grained backup.
+- Both snapshot and incremental backup are supported
+- All keyspaces will be backuped
 - Amazon S3 will be used to store the backup files
 - Housekeeping of old backup files are supposed to be done in S3
 
-### BACKUP STEPS
-1. Enable incremental backup
-    - copy the incremental backup from local disk to backup disk every hour
-2. Capture snapshot everyday
-3. Push backup files to S3
+### HOW TO USE IT
+#### snapshot
+- Update S3 path in snapshotter.sh
+- Run snapshotter.sh
+
+#### incremental backup
+- Enable incremental backup in yaml file
+- Update S3 path in backuper.sh
+- Run backuper.sh
 
 ### SNAPSHOT FOLDERS
 - SOURCE FOLDER: /var/lib/cassandra/data/$KESPACE/$TABLE*/snapshot/$TIMESTAMP
 - BACKUP FOLDER: /var/lib/cassandra/custom_backups/$KESPACE/$TABLE*/backups
 
 ### RELATED COMMANDS
-#### CREATING A SNAPSHOT
+#### Capture a snapshot
 ```
 ./nodetool -h $HOST -p 7199 snapshot $KEYSPACE
 ```
 
-#### RESTORE A TABLE
+#### Restore a table
 ```
 ./nodetool -h $HOST -p 7199 refresh $KEYSPACE $TABLE
 ```
 
-#### FLUSH CHANGES TO SSTABLE
+#### Flush changes to SSTable
 ```
 ./nodetool -h $HOST -p 7199 flush $KEYSPACE $TABLE
 ```
