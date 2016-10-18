@@ -1,4 +1,4 @@
-# CASSANDRA_BACKUPER
+# CASSANDRA_BACKUPPER
 
 ## BACKUP STRAGETY
 - Both snapshot and incremental backup are supported
@@ -14,11 +14,11 @@
 - Update S3 path in snapshotter.sh
 - Run snapshotter.sh
 
-### backuper.sh (uploading incremental backups to S3)
+### backupper.sh (uploading incremental backups to S3)
 - Copy snapshotter.sh to one cassandra node (to the mounted folder if cassandra is runing inside a docker container)
 - Enable incremental backup in yaml file
-- Update S3 path in backuper.sh
-- Run backuper.sh
+- Update S3 path in backupper.sh
+- Run backupper.sh
 
 
 ## SNAPSHOT FOLDERS
