@@ -24,7 +24,7 @@
 
 #### RESTORE A TABLE
 ```
-./nodetool -h $HOST -p 7199 refresh $HOST $KEYSPACE $TABLE
+./nodetool -h $HOST -p 7199 refresh $KEYSPACE $TABLE
 ```
 
 #### FLUSH CHANGES TO SSTABLE
