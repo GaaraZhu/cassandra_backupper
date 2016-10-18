@@ -20,7 +20,9 @@ main () {
     for dir in ${BACKUP_SOURCE_FOLDER}/$KEYSPACE/*
     do
       echo "$(date '+%d/%m/%Y %H:%M:%S') Start backup cassandra snapshots from: ${dir}/snapshots/* to:${BACKUP_FOLDER}/$KEYSPACE/${dir##*/}/snapshots/" >> backcup_log.txt
-      cp -r ${dir}/snapshots/* ${BACKUP_FOLDER}/$KEYSPACE/${dir##*/}/snapshots/
+      TARGET_FOLDER=${BACKUP_FOLDER}/$KEYSPACE/${dir##*/}/snapshots/
+      mkdir -p $TARGET_FOLDER
+      cp -r ${dir}/snapshots/* $TARGET_FOLDER
       rm -r ${dir}/snapshots/*
       echo "$(date '+%d/%m/%Y %H:%M:%S') Start housekeeping old snapshots: ${BACKUP_FOLDER}/$KEYSPACE/${dir##*/}/snapshots" >> backcup_log.txt
     done
