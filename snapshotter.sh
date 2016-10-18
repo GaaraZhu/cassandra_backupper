@@ -9,27 +9,32 @@ main () {
   local SNAPSHOT_FOLDER=${SNAPSHOT_ROOT_FOLER}/$DATE
   mkdir -p $SNAPSHOT_FOLDER
 
-  KEYSPACES=$(ls $SNAPSHOT_SOURCE_FOLDER | grep -v "system")
-  for KEYSPACE in $KEYSPACES
+  KEYSPACE_QUERY=$(cqlsh -e "SELECT KEYSPACE_NAME FROM SYSTEM_SCHEMA.KEYSPACES" -u cassandra -p cassandra)
+  read -ra KEYSPACES <<< $KEYSPACE_QUERY
+
+  for KEYSPACE in "${KEYSPACES[@]}"
   do
-    # Capture snapshot of current KEYSPACE
-    echo "$(date '+%d/%m/%Y %H:%M:%S') Start capturing snapshots for KEYSPACE: $KEYSPACE" >> log_snapshots.txt
-    nodetool -h localhost -p 7199 snapshot $KEYSPACE
+    if [[ $KEYSPACE != *"keyspace_name"* ]] && [[ $KEYSPACE != *"--"* ]] && [[ $KEYSPACE != *"("* ]] && [[ $KEYSPACE != *")"* ]]
+    then
+        # Capture snapshot of current KEYSPACE
+        echo "$(date '+%d/%m/%Y %H:%M:%S') Start capturing snapshots for KEYSPACE: $KEYSPACE" >> log_snapshots.txt
+        nodetool -h localhost -p 7199 snapshot $KEYSPACE
 
-    # Copying and removing snapshots KEYSPACE by KEYSPACE
-    for dir in $SNAPSHOT_SOURCE_FOLDER/$KEYSPACE/*
-    do
-      TARGET_FOLDER=$SNAPSHOT_FOLDER/$KEYSPACE/${dir##*/}/
-      SOURCE_FOLDER=$dir/snapshots
-      if [ -d "$SOURCE_FOLDER" ]; then
-        echo "$(date '+%d/%m/%Y %H:%M:%S') Start backup cassandra snapshots from: $SOURCE_FOLDER to: $TARGET_FOLDER" >> log_snapshots.txt
-        mkdir -p $TARGET_FOLDER
-        cp -r $SOURCE_FOLDER $TARGET_FOLDER
-        rm -r $SOURCE_FOLDER
-      fi
+        # Copying and removing snapshots KEYSPACE by KEYSPACE
+        for dir in $SNAPSHOT_SOURCE_FOLDER/$KEYSPACE/*
+        do
+          TARGET_FOLDER=$SNAPSHOT_FOLDER/$KEYSPACE/${dir##*/}/
+          SOURCE_FOLDER=$dir/snapshots
+          if [ -d "$SOURCE_FOLDER" ]; then
+            echo "$(date '+%d/%m/%Y %H:%M:%S') Start backup cassandra snapshots from: $SOURCE_FOLDER to: $TARGET_FOLDER" >> log_snapshots.txt
+            mkdir -p $TARGET_FOLDER
+            cp -r $SOURCE_FOLDER $TARGET_FOLDER
+            rm -r $SOURCE_FOLDER
+          fi
 
-      echo "$(date '+%d/%m/%Y %H:%M:%S') Start housekeeping old snapshots: $SNAPSHOT_FOLDER/$KEYSPACE/${dir##*/}/snapshots" >> log_snapshots.txt
-    done
+          echo "$(date '+%d/%m/%Y %H:%M:%S') Start housekeeping old snapshots: $SNAPSHOT_FOLDER/$KEYSPACE/${dir##*/}/snapshots" >> log_snapshots.txt
+        done
+    fi
   done
   echo "$(date '+%d/%m/%Y %H:%M:%S') Finish backuping snapshots, zipping and pushing to s3" >> log_snapshots.txt
   tar -czf $SNAPSHOT_FOLDER.tgz $SNAPSHOT_FOLDER >> /dev/null 2>&1

@@ -23,7 +23,7 @@ main () {
       if [ -d "$SOURCE_FOLDER" ]; then
         echo "$(date '+%d/%m/%Y %H:%M:%S') Start copying incremental changes from: $TARGET_FOLDER to: $TARGET_FOLDER" >> log_incremental_backups.txt
         mkdir -p $TARGET_FOLDER
-        cp -r $SOURCE_FOLDER $TARGET_FOLDER
+        cp -r -p $SOURCE_FOLDER $TARGET_FOLDER
         #rm -r $SOURCE_FOLDER
       fi
     done
