@@ -17,7 +17,8 @@ main () {
     if [[ $KEYSPACE != *"keyspace_name"* ]] && [[ $KEYSPACE != *"--"* ]] && [[ $KEYSPACE != *"("* ]] && [[ $KEYSPACE != *")"* ]]
     then
       # Flush all data in memtable to sstable
-      echo "$(date '+%d/%m/%Y %H:%M:%S') Start flushing incremental changes from memtable to sstable for keysapce: $keyspace" >> log_incremental_backups.txt
+      echo "$(date '+%d/%m/%Y %H:%M:%S') Start backupping incremental changes for keysapce: $keyspace" >> log_incremental_backups.txt
+      echo "$(date '+%d/%m/%Y %H:%M:%S') Flushing incremental changes from memtable to sstable" >> log_incremental_backups.txt
       nodetool -h localhost -p 7199 flush $keyspace
 
       # Copy the incremental backup keyspace by keyspace
@@ -37,12 +38,12 @@ main () {
 
   tar -czf $BACKUP_FOLDER.tgz $BACKUP_FOLDER >> /dev/null 2>&1
 
-  # Uploading to S3
+  # Upload to S3
   echo `date` -- "Uploading backups to S3 -- start" >> log_incremental_backups.txt
   /usr/local/bin/aws s3 cp $BACKUP_FOLDER.tgz s3://xxx/incremental_backups/
-  echo `date` -- "Finish uploading" >> log_incremental_backups.txt
+  echo `date` -- "Finished uploading" >> log_incremental_backups.txt
 
-  echo "$(date '+%d/%m/%Y %H:%M:%S') Finish backuping incremental changes" >> log_incremental_backups.txt
+  echo "$(date '+%d/%m/%Y %H:%M:%S') Finished backuping incremental changes" >> log_incremental_backups.txt
 }
 
 # Run main after all functions are defined
