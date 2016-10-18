@@ -9,13 +9,13 @@
 
 ## HOW TO USE IT
 ### snapshotter.sh
-```Responsibility: capturing snapshots and uploading them to S3```
+```Responsibility: capturing snapshots and uploading them(compressed) to S3```
 ### backupper.sh
-```Responsibility: ploading incremental backups to S3```
+```Responsibility: uploading incremental backups(compressed) to S3```
 ### prerequisites
-- AWS Command Line Interface (CLI) is supposed to be installed in the node
-- Script(s)(snapshotter.sh/backupper.sh) is(are) supposed to be in one cassandra node (to the mounted folder if cassandra is runing inside a docker container)
-- S3 path must be updated in script file(s)
+- AWS Command Line Interface (CLI) must be installed in the node
+- Script(s)(snapshotter.sh/backupper.sh) must be in one cassandra node (to the mounted folder if cassandra is runing inside a docker container)
+- S3 path must exist and must be updated in script file(s)
 
 
 ## SNAPSHOT FOLDERS
