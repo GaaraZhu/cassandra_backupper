@@ -4,9 +4,9 @@ set -eu
 main () {
   echo "$(date '+%d/%m/%Y %H:%M:%S') Start backuping snapshots" >> log_snapshots.txt
   DATE=`date +%Y-%m-%d-%H-%M`
-  local SNAPSHOT_SOURCE_FOLDER="/var/lib/cassandra/data"
-  local SNAPSHOT_ROOT_FOLER="/var/lib/cassandra/custom_snaphosts"
-  local SNAPSHOT_FOLDER=${SNAPSHOT_ROOT_FOLER}/$DATE
+  SNAPSHOT_SOURCE_FOLDER="/var/lib/cassandra/data"
+  SNAPSHOT_ROOT_FOLER="/var/lib/cassandra/custom_snaphosts"
+  SNAPSHOT_FOLDER=${SNAPSHOT_ROOT_FOLER}/$DATE
   mkdir -p $SNAPSHOT_FOLDER
 
   KEYSPACE_QUERY=$(cqlsh -e "SELECT KEYSPACE_NAME FROM SYSTEM_SCHEMA.KEYSPACES" -u cassandra -p cassandra)

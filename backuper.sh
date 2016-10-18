@@ -4,9 +4,9 @@ set -eu
 main () {
   echo "$(date '+%d/%m/%Y %H:%M:%S') Start backuping incremental changes" >> log_incremental_backups.txt
   DATE=`date +%Y-%m-%d-%H-%M`
-  local BACKUP_SOURCE_FOLDER="/var/lib/cassandra/data"
-  local BACKUP_ROOT_FOLER="/var/lib/cassandra/custom_backups"
-  local BACKUP_FOLDER=${BACKUP_ROOT_FOLER}/$DATE
+  BACKUP_SOURCE_FOLDER="/var/lib/cassandra/data"
+  BACKUP_ROOT_FOLER="/var/lib/cassandra/custom_backups"
+  BACKUP_FOLDER=${BACKUP_ROOT_FOLER}/$DATE
   mkdir -p $BACKUP_FOLDER
   
   KEYSPACE_QUERY=$(cqlsh -e "SELECT KEYSPACE_NAME FROM SYSTEM_SCHEMA.KEYSPACES" -u cassandra -p cassandra)
