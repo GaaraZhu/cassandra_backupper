@@ -1,4 +1,5 @@
 # CASSANDRA_BACKUPPER
+Scripts to backup your cassandra nodes with snapshots and incremental backups to S3
 
 ## BACKUP STRAGETY
 - Both snapshot and incremental backup are supported
