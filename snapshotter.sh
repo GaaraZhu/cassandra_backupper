@@ -34,6 +34,12 @@ main () {
             echo "$(date '+%d/%m/%Y %H:%M:%S') Removing existing snapshots from source folder: $SOURCE_FOLDER" >> log_snapshots.txt
             rm -r $SOURCE_FOLDER
           fi
+
+          BACKUP_FOLDER=$dir/backups
+          if [ -d "$BACKUP_FOLDER" ]; then
+            echo "$(date '+%d/%m/%Y %H:%M:%S') Removing backup files older than 30 days from backups folder: $BACKUP_FOLDER" >> log_snapshots.txt
+            housekeepBackup $BACKUP_FOLDER
+          fi
         done
     fi
   done
@@ -48,6 +54,11 @@ main () {
   rm -r $SNAPSHOT_ROOT_FOLER
 
   echo "$(date '+%d/%m/%Y %H:%M:%S') Finished backuping snapshots" >> log_snapshots.txt
+}
+
+housekeepBackup() {
+    local BACKUP_FOLDER="$1"
+    find $BACKUP_FOLDER -mtime +30 -type f -delete
 }
 
 # Run main after all functions are defined
