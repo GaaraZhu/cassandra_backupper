@@ -1,16 +1,20 @@
 # CASSANDRA_BACKUPPER
-Scripts to backup your cassandra nodes with snapshots and incremental backups to S3
+Scripts to backup your cassandra(no matter whether it's dockerized or not) nodes with snapshots and incremental backups to S3
 
 ## BACKUP STRAGETY
 - Both snapshot and incremental backup are supported
 - All keyspaces will be backuped
 - Amazon S3 will be used to store the backup files
-- Housekeeping of old backup files are supposed to be done in S3
+
+## HOUSEKEEP STRAGETY
+- Local backup files older than 30 days will be housekept when running `snapshotter.sh`
+- Local snapshot files will be housekpet when running `snapshotter.sh`
+- Remote files housekeeping are supposed to be done in S3
 
 
 ## HOW TO USE IT
 ### snapshotter.sh
-```Responsibility: capturing snapshots and uploading them(compressed) to S3```
+```Responsibility: capturing snapshots and uploading(compressed) to S3```
 ### backupper.sh
 ```Responsibility: uploading incremental backups(compressed) to S3```
 ### prerequisites
