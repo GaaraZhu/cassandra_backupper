@@ -40,7 +40,7 @@ main () {
 
   # Upload to S3
   echo `date` -- "Uploading backups to S3 -- start" >> log_incremental_backups.txt
-  /usr/local/bin/aws s3 cp $BACKUP_FOLDER.tgz s3://xxx/incremental_backups/
+  /usr/local/bin/aws s3 --region="xxxxxxxx" cp $BACKUP_FOLDER.tgz s3://xxx/incremental_backups/
   echo `date` -- "Finished uploading" >> log_incremental_backups.txt
 
   echo "$(date '+%d/%m/%Y %H:%M:%S') Finished backuping incremental changes" >> log_incremental_backups.txt
