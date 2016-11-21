@@ -48,7 +48,7 @@ main () {
 
   # Upload to S3
   echo `date` -- "Uploading backups to S3 -- start" >> log_snapshots.txt
-  /usr/local/bin/aws s3 cp $SNAPSHOT_FOLDER.tgz s3://xxx/snapshots/
+  /usr/local/bin/aws s3 --region="xxxxxxxx" cp $SNAPSHOT_FOLDER.tgz s3://xxx/snapshots/
   echo `date` -- "Finished uploading" >> log_snapshots.txt
 
   rm -r $SNAPSHOT_ROOT_FOLER
