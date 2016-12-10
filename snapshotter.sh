@@ -5,8 +5,8 @@ main () {
   echo "$(date '+%d/%m/%Y %H:%M:%S') Start backuping snapshots" >> log_snapshots.txt
   DATE=`date +%Y-%m-%d-%H-%M`
   SNAPSHOT_SOURCE_FOLDER="/var/lib/cassandra/data"
-  SNAPSHOT_ROOT_FOLER="/var/lib/cassandra/custom_snaphosts"
-  SNAPSHOT_FOLDER=${SNAPSHOT_ROOT_FOLER}/$DATE
+  SNAPSHOT_ROOT_FOLDER="/var/lib/cassandra/custom_snaphosts"
+  SNAPSHOT_FOLDER=${SNAPSHOT_ROOT_FOLDER}/$DATE
   mkdir -p $SNAPSHOT_FOLDER
 
   KEYSPACE_QUERY=$(cqlsh -e "SELECT KEYSPACE_NAME FROM SYSTEM_SCHEMA.KEYSPACES" -u cassandra -p cassandra)
@@ -30,7 +30,7 @@ main () {
             echo "$(date '+%d/%m/%Y %H:%M:%S') Copying cassandra snapshots from: $SOURCE_FOLDER to: $TARGET_FOLDER" >> log_snapshots.txt
             mkdir -p $TARGET_FOLDER
             cp -r $SOURCE_FOLDER $TARGET_FOLDER
-            
+
             echo "$(date '+%d/%m/%Y %H:%M:%S') Removing existing snapshots from source folder: $SOURCE_FOLDER" >> log_snapshots.txt
             rm -r $SOURCE_FOLDER
           fi
@@ -51,7 +51,7 @@ main () {
   /usr/local/bin/aws s3 --region="xxxxxxxx" cp $SNAPSHOT_FOLDER.tgz s3://xxx/snapshots/
   echo `date` -- "Finished uploading" >> log_snapshots.txt
 
-  rm -r $SNAPSHOT_ROOT_FOLER
+  rm -r $SNAPSHOT_ROOT_FOLDER
 
   echo "$(date '+%d/%m/%Y %H:%M:%S') Finished backuping snapshots" >> log_snapshots.txt
 }
